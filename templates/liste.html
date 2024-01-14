@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="design.css">
+    <title>Document</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">MoveMate</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Home </a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Übersicht Aufgaben <span class="sr-only">Übersicht Aufgaben</span></a>
+            </li>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/calendar_view">Kalenderansicht</a>
+          </li>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/docs">Vorlagen für Dokumente</a>
+        </li>
+      </li>
+          </ul>
+        </div>
+      </nav> 
+
+<!--Ab hier fängt der Code für Taskliste an-->
+
+<form action="/handle_data" method="POST">
+  <h2>Vor dem Umzug</h2>
+  {% for task in tasks if task.category == "before" %}
+  <label><input type="checkbox" name="task" value="{{ task.id }}" class="task-checkbox" {% if task.completed %}checked{% endif %}><span class="task-title {% if task.completed %}completed{% endif %}">{{ task.title }}</span></label><br>
+  {% endfor %}
+
+  <h2>Während dem Umzug</h2>
+  {% for task in tasks if task.category == "during" %}
+  <label><input type="checkbox" name="task" value="{{ task.id }}" class="task-checkbox" {% if task.completed %}checked{% endif %}><span class="task-title {% if task.completed %}completed{% endif %}">{{ task.title }}</span></label><br>
+  {% endfor %}
+
+  <h2>Nach dem Umzug</h2>
+  {% for task in tasks if task.category == "after" %}
+  <label><input type="checkbox" name="task" value="{{ task.id }}" class="task-checkbox" {% if task.completed %}checked{% endif %}><span class="task-title {% if task.completed %}completed{% endif %}">{{ task.title }}</span></label><br>
+  {% endfor %}
+
+  <h2>Adressänderungen</h2>
+  {% for task in tasks if task.category == "adresschange" %}
+  <label><input type="checkbox" name="task" value="{{ task.id }}" class="task-checkbox" {% if task.completed %}checked{% endif %}><span class="task-title {% if task.completed %}completed{% endif %}">{{ task.title }}</span></label><br>
+  {% endfor %}
+
+  <h2>Putzliste</h2>
+  {% for task in tasks if task.category == "clean" %}
+  <label><input type="checkbox" name="task" value="{{ task.id }}" class="task-checkbox" {% if task.completed %}checked{% endif %}><span class="task-title {% if task.completed %}completed{% endif %}">{{ task.title }}</span></label><br>
+  {% endfor %}
+</form>
+
+<script>
+document.querySelectorAll('.task-checkbox').forEach(function(checkbox) {
+  checkbox.addEventListener('change', function() {
+    var taskTitle = this.nextElementSibling;
+    if (this.checked) {
+      taskTitle.classList.add('completed');
+    } else {
+      taskTitle.classList.remove('completed');
+    }
+    fetch('/update_task', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id: this.value, completed: this.checked })
+    });
+  });
+});
+</script>
+</body>
+</html>

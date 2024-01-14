@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="design.css">
+    <title>Document</title>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events: '/events'
+            });
+            calendar.render();
+        });
+
+    </script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">MoveMate</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">Home </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/tasks">Übersicht Aufgaben</a>
+            </li>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Kalenderansicht <span class="sr-only">(current)</span></a>
+          </li>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/docs">Vorlagen für Dokumente</a>
+        </li>
+      </li>
+          </ul>
+        </div>
+      </nav>  
+      
+<div id="calendar" class="col-md-10 col-lg-6 data-custom-calendar bootstrap-calendar"></div>
+<form id="addEventForm">
+  <input type="text" id="eventTitle" placeholder="Event Title">
+  <input type="date" id="eventDate">
+  <button type="submit">Termin hinzufügen</button>
+</form>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        timeZone: 'UTC',
+        initialView: 'dayGridMonth',
+        events: '/events',
+        selectable: true,
+        select: function(info) {
+            document.getElementById('eventDate').value = info.startStr;
+        },
+        weekNumbers: true,
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek'
+        }
+    });
+    calendar.render();
+
+    document.getElementById('addEventForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var title = document.getElementById('eventTitle').value;
+        var date = new Date(document.getElementById('eventDate').value);
+        var utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())).toISOString().slice(0,10);
+        fetch('/add_event', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ title: title, start: utcDate })
+        }).then(function(response) {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        }).then(function() {
+            calendar.refetchEvents();
+        }).catch(function(error) {
+            console.error('There has been a problem with your fetch operation:', error);
+        });
+    });
+});
+</script>
+
+    
+
+</body>
+</html>

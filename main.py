@@ -148,12 +148,13 @@ def update_task():
 
 
 #Code für Docs
-@app.route('/docs/<path:filename>', methods=['GET', 'POST'])
-def download(filename):
-    try:
-        return send_from_directory(app.static_folder, filename, as_attachment=True)
-    except FileNotFoundError:
-        abort(404, description="Resource not found")
+@app.route('/documents')
+def documents():
+    return render_template("docs.html")
+
+@app.route('/documents/<path:filename>')
+def download_file(filename):
+    return send_from_directory('documents', filename)
 
 
 

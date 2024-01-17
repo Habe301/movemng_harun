@@ -21,7 +21,7 @@
     </script>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">MoveMate</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -29,31 +29,41 @@
       
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="/">Home </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/tasks">Übersicht Aufgaben</a>
             </li>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Kalenderansicht <span class="sr-only">(current)</span></a>
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Kalenderansicht <span class="sr-only">Kalenderansicht</span></a>
+            
           </li>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/docs">Vorlagen für Dokumente</a>
+          <a class="nav-link" href="/documents">Vorlagen für Dokumente</a>
         </li>
       </li>
           </ul>
         </div>
       </nav>  
-      
-<div id="calendar" class="col-md-10 col-lg-6 data-custom-calendar bootstrap-calendar"></div>
-<form id="addEventForm">
-  <input type="text" id="eventTitle" placeholder="Event Title">
-  <input type="date" id="eventDate">
-  <button type="submit">Termin hinzufügen</button>
+<div class="container">
+<div class="row justify-content-center">      
+  <div id="calendar" class="col-md-12 col-lg-9 data-custom-calendar bootstrap-calendar"></div>
+</div>
+<div class="row justify-content-center">
+<form id="addEventForm" class="col-md-12 col-lg-9 mt-3">
+  <div class="form-group">
+    <input type="text" id="eventTitle" placeholder="Event Title" class="form-control">
+  </div>
+  <div class="form-group">
+    <input type="date" id="eventDate" class="form-control">
+  </div>
+  <button type="submit" class="btn btn-primary">Termin hinzufügen</button>
 </form>
+</div>
+</div>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
@@ -98,8 +108,17 @@
     });
 });
 </script>
-
-    
-
 </body>
+
+<div class="container">
+  <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+    <div class="col-md-4 d-flex align-items-center">
+      <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
+        <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
+      </a>
+      <span class="mb-3 mb-md-0 text-body-secondary"> A Harun Bajric Production</span>
+    </div>
+
+  </footer>
+</div>
 </html>

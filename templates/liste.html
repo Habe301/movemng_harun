@@ -8,7 +8,7 @@
     <title>Document</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">MoveMate</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -28,7 +28,7 @@
           </li>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/docs">Vorlagen für Dokumente</a>
+          <a class="nav-link" href="/documents">Vorlagen für Dokumente</a>
         </li>
       </li>
           </ul>
@@ -38,30 +38,47 @@
 <!--Ab hier fängt der Code für Taskliste an-->
 
 <form action="/handle_data" method="POST">
-  <h2>Vor dem Umzug</h2>
-  {% for task in tasks if task.category == "before" %}
-  <label><input type="checkbox" name="task" value="{{ task.id }}" class="task-checkbox" {% if task.completed %}checked{% endif %}><span class="task-title {% if task.completed %}completed{% endif %}">{{ task.title }}</span></label><br>
-  {% endfor %}
-
-  <h2>Während dem Umzug</h2>
-  {% for task in tasks if task.category == "during" %}
-  <label><input type="checkbox" name="task" value="{{ task.id }}" class="task-checkbox" {% if task.completed %}checked{% endif %}><span class="task-title {% if task.completed %}completed{% endif %}">{{ task.title }}</span></label><br>
-  {% endfor %}
-
+  <div class="container">
+    <div class="row">
+      <div class="col">
+            <h2>Vor dem Umzug</h2>
+            <div class="p-3 mb-3 border rounded bg-light">
+            {% for task in tasks if task.category == "before" %}
+            <label><input type="checkbox" name="task" value="{{ task.id }}" class="task-checkbox" {% if task.completed %}checked{% endif %}><span class="task-title {% if task.completed %}completed{% endif %}">{{ task.title }}</span></label><br>
+            {% endfor %}
+      </div>
+    </div>
+      <div class="col">
+        <h2>Während dem Umzug</h2>
+        <div class="p-3 mb-3 border rounded bg-light">
+          {% for task in tasks if task.category == "during" %}
+          <label class="d-block mb-2"><input type="checkbox" name="task" value="{{ task.id }}" class="task-checkbox" {% if task.completed %}checked{% endif %}><span class="task-title {% if task.completed %}completed{% endif %}">{{ task.title }}</span></label>
+          {% endfor %}
+        </div>
+        <h2>Putzliste</h2>
+        <div class="p-3 mb-3 border rounded bg-light">
+          {% for task in tasks if task.category == "clean" %}
+          <label class="d-block mb-2"><input type="checkbox" name="task" value="{{ task.id }}" class="task-checkbox" {% if task.completed %}checked{% endif %}><span class="task-title {% if task.completed %}completed{% endif %}">{{ task.title }}</span></label>
+          {% endfor %}
+        </div>
+      </div>
+   <div>           
   <h2>Nach dem Umzug</h2>
+  <div class="p-3 mb-3 border rounded bg-light">
   {% for task in tasks if task.category == "after" %}
   <label><input type="checkbox" name="task" value="{{ task.id }}" class="task-checkbox" {% if task.completed %}checked{% endif %}><span class="task-title {% if task.completed %}completed{% endif %}">{{ task.title }}</span></label><br>
   {% endfor %}
+</div>
 
   <h2>Adressänderungen</h2>
+  <div class="p-3 mb-3 border rounded bg-light">
   {% for task in tasks if task.category == "adresschange" %}
   <label><input type="checkbox" name="task" value="{{ task.id }}" class="task-checkbox" {% if task.completed %}checked{% endif %}><span class="task-title {% if task.completed %}completed{% endif %}">{{ task.title }}</span></label><br>
   {% endfor %}
-
-  <h2>Putzliste</h2>
-  {% for task in tasks if task.category == "clean" %}
-  <label><input type="checkbox" name="task" value="{{ task.id }}" class="task-checkbox" {% if task.completed %}checked{% endif %}><span class="task-title {% if task.completed %}completed{% endif %}">{{ task.title }}</span></label><br>
-  {% endfor %}
+</div>
+    </div>          
+    </div>
+  </div>
 </form>
 
 <script>
@@ -84,4 +101,16 @@ document.querySelectorAll('.task-checkbox').forEach(function(checkbox) {
 });
 </script>
 </body>
+
+<div class="container">
+  <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+    <div class="col-md-4 d-flex align-items-center">
+      <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
+        <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
+      </a>
+      <span class="mb-3 mb-md-0 text-body-secondary"> A Harun Bajric Production</span>
+    </div>
+
+  </footer>
+</div>
 </html>
